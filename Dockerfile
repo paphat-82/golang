@@ -17,7 +17,7 @@ COPY . .
 RUN go build -o main .
 
 # Use a smaller base image for the final stage
-FROM busybox:latest
+FROM busybox:stable-glibc
 
 # Set the working directory
 WORKDIR /root/
