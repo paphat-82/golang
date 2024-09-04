@@ -1,5 +1,5 @@
-# Use a specific version of the Go image to avoid unintended updates
-FROM golang:1.21.4 AS build
+ # Use a specific version of the Go image to avoid unintended updates
+ FROM golang:1.21.11 AS build
 
 # Set the working directory
 WORKDIR /app
