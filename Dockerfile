@@ -1,10 +1,10 @@
-# Use the official Golang image to build the application
+# Use a specific version of the Go image to avoid unintended updates
 FROM golang:1.21.4 AS build
 
 # Set the working directory
 WORKDIR /app
 
-# Copy go.mod and go.sum files
+# Copy only necessary files
 COPY go.mod go.sum ./
 
 # Download dependencies
@@ -13,10 +13,10 @@ RUN go mod download
 # Copy the rest of the application code
 COPY . .
 
-# Build the Go application
-RUN go build -o main .
+# Build the Go application with optimizations
+RUN CGO_ENABLED=0 GOOS=linux go build -o main .
 
-# Use a smaller base image for the final stage
+# Use a smaller and more secure base image for the final stage
 FROM busybox:stable-glibc
 
 # Set the working directory
@@ -28,8 +28,11 @@ COPY --from=build /app/main .
 # Make the binary executable
 RUN chmod +x /root/main
 
-# Expose the port the app runs on
+# Expose the necessary port
 EXPOSE 8080
+
+# Run the Go binary as a non-root user if possible
+USER nobody
 
 # Run the Go binary
 CMD ["./main"]
