@@ -1,4 +1,9 @@
-# Exclude all files except Dockerfile and source code
-build/
+# ไม่สนใจไฟล์และไดเรกทอรีที่ไม่ต้องการ
+.git
+.gitignore
+Dockerfile
+README.md
+*.md
+node_modules
 *.log
 *.tmp
